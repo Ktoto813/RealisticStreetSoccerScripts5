@@ -1,0 +1,17 @@
+-- Auto Goalkeeper RSS
+local GK = workspace:WaitForChild("Goalkeeper")
+local Ball = workspace:WaitForChild("Ball")
+local Humanoid = GK:FindFirstChildOfClass("Humanoid") or Instance.new("Humanoid", GK)
+
+local REACTION, SPEED, JUMP_OFFSET, RANGE = 0.1, 0.5, 2, 30
+
+while true do
+    task.wait(REACTION)
+    local DIR = Ball.Position - GK.Position
+    if DIR.Magnitude < RANGE then
+        GK.Position += Vector3.new(DIR.X,0,DIR.Z).Unit * SPEED
+        if Ball.Position.Y > GK.Position.Y + JUMP_OFFSET then
+            Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        end
+    end
+end
